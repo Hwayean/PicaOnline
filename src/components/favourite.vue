@@ -4,8 +4,9 @@
 
     <v-main>
       <v-overlay :value="overlay" v-on:click="overlay=!overlay">
-        <img ref="picture" :src="imgSrc" style="object-fit: contain" alt=""/>
+        <img ref="picture" @click="hidePicture()" :src="imgSrc" style="object-fit: contain" alt=""/>
       </v-overlay>
+
       <div class="back">
 
         <div id="result" style="margin: auto" v-if="total!==0">
@@ -114,6 +115,7 @@ export default {
     },
     getData(index) {
 
+
       this.$axios.request({
         method: 'get',
         url: 'http://localhost:8000/favourite',
@@ -127,11 +129,18 @@ export default {
         this.pages = res.data.data.comics.pages
         this.page = index
       })
+      window.scrollTo(0,-window.scrollY)
     },
 
     showPicture(path) {
       this.overlay = true
       this.imgSrc = path
+    },
+
+    hidePicture() {
+      this.overlay = false;
+      this.imgSrc="";
+      console.log(123)
     }
   }
 }
